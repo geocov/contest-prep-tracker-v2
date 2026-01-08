@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1F4E79" />
+  <title>Contest Prep Tracker</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">CP</div>
+      <div>
+        <div class="title">Contest Prep Tracker</div>
+        <div class="subtitle">Offline • 12 weeks • Export/Import CSV</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="btnExport" class="btn secondary">Export CSV</button>
+      <label class="btn secondary file">
+        Import CSV
+        <input id="fileImport" type="file" accept=".csv">
+      </label>
+      <button id="btnSettings" class="btn">Settings</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="card-header">
+        <h2>Today</h2>
+        <div class="row">
+          <div class="pill" id="weekPill">Week —</div>
+          <label class="field">
+            <span>Date</span>
+            <input id="date" type="date" />
+          </label>
+          <label class="field">
+            <span>Planned focus</span>
+            <select id="planned">
+              <option>Legs + Shoulders (Heavy)</option>
+              <option>Chest + Back</option>
+              <option>Rest / Recovery</option>
+              <option>Legs + Shoulders (Volume)</option>
+              <option>Arms + Delts</option>
+              <option>Cardio / Posing</option>
+              <option>Rest / Recovery</option>
+            </select>
+          </label>
+          <label class="field small">
+            <span>Training</span>
+            <select id="trainingDone">
+              <option value="">—</option>
+              <option value="Y">Y</option>
+              <option value="N">N</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid">
+        <label class="field">
+          <span>Cardio (min)</span>
+          <input id="cardio" type="number" inputmode="numeric" min="0" placeholder="e.g. 30" />
+        </label>
+        <label class="field">
+          <span>Steps</span>
+          <input id="steps" type="number" inputmode="numeric" min="0" placeholder="e.g. 12000" />
+        </label>
+        <label class="field">
+          <span>Water (L)</span>
+          <input id="water" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 4.5" />
+        </label>
+        <label class="field">
+          <span>Sleep (hrs)</span>
+          <input id="sleep" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 7.5" />
+        </label>
+        <label class="field">
+          <span>Body weight (kg)</span>
+          <input id="weight" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 96.2" />
+        </label>
+        <label class="field">
+          <span>Energy (1–10)</span>
+          <input id="energy" type="number" inputmode="numeric" min="1" max="10" placeholder="e.g. 7" />
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Notes</span>
+        <textarea id="notes" rows="3" placeholder="Anything that mattered: sleep quality, stress, pump, appetite, steps missed, etc."></textarea>
+      </label>
+
+      <div class="actions">
+        <button id="btnSave" class="btn">Save</button>
+        <button id="btnClear" class="btn danger">Clear day</button>
+        <div id="status" class="status"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>History</h2>
+        <div class="row">
+          <input id="search" class="search" placeholder="Search notes or focus…" />
+          <button id="btnThisWeek" class="btn secondary">This week</button>
+          <button id="btnThis12" class="btn secondary">This 12 weeks</button>
+          <button id="btnAll" class="btn secondary">All</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Week</th>
+              <th>Focus</th>
+              <th>Train</th>
+              <th>Cardio</th>
+              <th>Steps</th>
+              <th>Water</th>
+              <th>Sleep</th>
+              <th>Wt</th>
+              <th>Energy</th>
+              <th>Notes</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="settingsDialog" class="dialog">
+    <form method="dialog" class="dialog-inner">
+      <h3>Settings</h3>
+      <p class="muted">
+        iPhone: open in Safari → Share → Add to Home Screen.
+        It will work offline after the first load.
+      </p>
+      <div class="grid">
+        <label class="field">
+          <span>Prep start date (Monday recommended)</span>
+          <input id="startDate" type="date" />
+        </label>
+        <label class="field">
+          <span>Auto-suggest focus</span>
+          <select id="autoSuggest">
+            <option value="on">On</option>
+            <option value="off">Off</option>
+          </select>
+        </label>
+      </div>
+      <p class="smalltxt">If Auto-suggest is on, the app sets the planned focus based on your split anchored to the prep start date.</p>
+      <div class="dialog-actions">
+        <button id="btnResetAll" class="btn danger" value="default">Reset ALL data</button>
+        <button class="btn secondary" value="cancel">Close</button>
+        <button id="btnSaveSettings" class="btn" value="ok">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
