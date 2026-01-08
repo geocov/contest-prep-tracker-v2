@@ -51,7 +51,7 @@ body{
   background:var(--card);
   border:1px solid var(--border);
   border-radius:14px;
-  padding:14px;
+  padding:10px;
 }
 .card-header{
   display:flex;
